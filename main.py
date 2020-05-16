@@ -30,7 +30,7 @@ valset = torch.utils.data.DataLoader(val, batch_size=2, shuffle=True) #250 image
 
 # print(trainset.size())
 
-
+output_visualization =0
 learing_rate = 0.001
 epoachs = 100
 
@@ -202,13 +202,13 @@ def test(net, device):
 
                 # output visualization
                 # funtion to assign the rgb value to pixel and generating the rgb image based on the predicted labels
-                predicted_rgb = decode_segmap(predicted_max_idx) 
-                fig = plt.figure(1)
-                plt.imshow(predicted_rgb)
-                plt.figure(2)
-                plt.imshow(transforms.ToPILImage()(data[0][idx]))
-                plt.show()
-            
+                if(output_visualization):
+                    predicted_rgb = decode_segmap(predicted_max_idx) 
+                    fig = plt.figure(1)
+                    plt.imshow(predicted_rgb)
+                    plt.figure(2)
+                    plt.imshow(transforms.ToPILImage()(data[0][idx]))
+                    plt.show()
         accuracy = 1 - nonzerocount/(valset_size*256*512)
         print("Accuracy",accuracy)
 
