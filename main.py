@@ -155,6 +155,63 @@ def train(net, device):
     # Storing the weights after every epoach
     torch.save(net.state_dict(),'/home/sur/SegNet/weights/wts_segnet.pth')
 
+def decode_segmap(image,classes=33):
+    label_color_dict = np.array([(0,0,0),(0,0,127),(0,0,255),(0,127,0),(0,127,127),(0,127,255),(0,255,0),(0,255,127),(0,255,255),
+                                 (85,0,0),(85,0,127),(85,0,255),(85,127,0),(85,127,127),(85,127,255),(85,255,0),(85,255,127),(85,255,255),
+                                 (170,0,0),(170,0,127),(170,0,255),(170,127,0),(170,127,127),(170,127,255),(170,255,0),(170,255,127),(170,255,255),
+                                 (255,0,0),(255,0,127),(255,0,255),(255,127,0),(255,127,127),(255,127,255),(255,255,0)])
+    r_label = np.zeros_like(image).astype(np.uint8)
+    g_label = np.zeros_like(image).astype(np.uint8)
+    b_label = np.zeros_like(image).astype(np.uint8) 
+
+    # iterating over image and updating the r,g,b values
+    for i in range (0,classes):
+        index = image == i
+        r_label[index] = label_color_dict[i, 0]
+        g_label[index] = label_color_dict[i, 1]
+        b_label[index] = label_color_dict[i, 2]
+
+    rgb = np.stack([r_label, g_label, b_label], axis=2)
+    return rgb
+
+def test(net, device):
+    correct_classification =0
+    valset_size = 500
+
+    with torch.no_grad():
+        wrongclassifiedpixelcount = 0
+        # iterating over all the data from the validation set
+        for data in valset:
+            X, y = data
+            X, y = X.to(device), y.to(device)
+            # passing the data from network to get the output
+            output = net(X)
+            # len(output) is nothing but batch size
+            for idx in range(len(output)):
+                # following is the softmax out put for every pixel size = imagesize*#class
+                predicted_output = output[idx]
+                # Here we are storing the indixes of max value in the class direction size = image size
+                predicted_output_max_index = torch.argmax(predicted_output,0)
+                # converting the array to numpy array
+                predicted_max_idx = predicted_output_max_index.detach().cpu().numpy()
+
+                # comparision between actual labels and predicted labels
+                label = y[idx][0].detach().cpu().numpy()
+                final_diff = predicted_max_idx - label*255
+                wrongclassifiedpixelcount = wrongclassifiedpixelcount + np.count_nonzero(final_diff)
+
+                # output visualization
+                # funtion to assign the rgb value to pixel and generating the rgb image based on the predicted labels
+                predicted_rgb = decode_segmap(predicted_max_idx) 
+                fig = plt.figure(1)
+                plt.imshow(predicted_rgb)
+                plt.figure(2)
+                plt.imshow(transforms.ToPILImage()(data[0][idx]))
+                plt.show()
+            
+        accuracy = 1 - nonzerocount/(valset_size*256*512)
+        print("Accuracy",accuracy)
+
 if __name__ == '__main__':
   sec = time.time()
 # Crating the network and assigning the GPUs
@@ -167,7 +224,7 @@ if __name__ == '__main__':
   net.load_state_dict(torch.load('/home/sur/SegNet/weights/wts_segnet.pth'))
 
 # Training the network  
-  train(net,device)
+#   train(net,device)
 # Testing the network
   test(net, device)
   sec_last = time.time()
