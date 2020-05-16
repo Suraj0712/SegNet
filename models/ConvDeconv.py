@@ -6,7 +6,7 @@ import torch.nn.functional as F
 
 class ConvDeconv(nn.Module) :
     def __init__(self):
-        super(ConvDeconvWithSkipConnection,self).__init__()
+        super(ConvDeconv,self).__init__()
 
         self.layer10_conv = nn.Conv2d(3,64,3,1,padding = (1,1))
         self.layer10_batch = nn.BatchNorm2d(64, affine = False)

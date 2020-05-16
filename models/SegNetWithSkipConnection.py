@@ -150,6 +150,8 @@ class SegNetWithSkipConnection(nn.Module) :
     x_out = F.softmax(x10_dec,dim=1)
     
     return x_out
+
+    # Test code
 # net = SegNetWithSkipConnection()
 # net.zero_grad()  
 # DATA_PATH = '/home/sur/SemSeg/cityscape/'
