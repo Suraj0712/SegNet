@@ -1,6 +1,6 @@
 # Deep Learning: Image Segmentation using Encoder-Decoder Architecture
 
-### Go Chase It!
+### Results!
 ![alt txt](docs/segmentation.png)
 
 ### Directory Structure
@@ -35,8 +35,7 @@ Time
 we need Cityscape dataset for this project. To download the cityscape dataset you neet to create account on [cityscape site](https://www.cityscapes-dataset.com/login/).
 Once the account is setup go to download section and download following datasets.
 
-**gtFine_trainvaltest.zip (241MB) [md5]**
-**leftImg8bit_trainvaltest.zip (11GB) [md5]**
+**gtFine_trainvaltest.zip (241MB) [md5] and leftImg8bit_trainvaltest.zip (11GB) [md5]**
 
 unzip the data set and ensure that the file structure looks the same as below and add the same in your SegNet directory
 ```
@@ -53,15 +52,15 @@ unzip the data set and ensure that the file structure looks the same as below an
 
 ### How to run
 
-#### 1. First of all, clone this repo:
+#### 1. First of all, clone the repo:
 ```
 $ git clone git@github.com:Suraj0712/SegNet.git
 ```
 #### 2. Change the paths
 Open the ```main.py``` file: 
-1. Update the path on line number 20 i.e. ```data_path = "/home/sur/SegNet/cityscape/"``` with your path to cityscape directory
-2. Update the path on line number 156, 224 i.e. ```"/home/sur/SegNet/weights/"``` with your path to weights directory
-3. Optional: To visualize the output change ```output_visualization``` to 1 you can also change the learning rate and epoach 
+1. Update the path on line number 20 ```data_path = "/home/sur/SegNet/cityscape/"``` with your path to cityscape directory
+2. Update the path on line number 156, 224 ```"/home/sur/SegNet/weights/"``` with your path to weights directory
+3. Optional: To visualize the output change ```output_visualization``` to 1. You can also change the learning rate and epoach 
 
 #### 3. Loading the model
 1. To change the model you have to uncomment the appropriate lines 46-50 in the main function 
@@ -78,6 +77,9 @@ $ python main.py
 for python3
 $ python3 main.py
 ```
-### Credit!
-All this wouldn't have been possible without the valuable help I received from my classmates [Baladurgesh](https://www.linkedin.com/in/baladhurgesh/) , [Milan](https://www.linkedin.com/in/milan-r-shah/), and [Akshata](https://www.linkedin.com/in/akshata-pore-558242189/) for the
+
+#### 5. Credits
+All this wouldn't have been possible without the valuable help I received from my classmates [Baladurgesh](https://www.linkedin.com/in/baladhurgesh/) , [Milan](https://www.linkedin.com/in/milan-r-shah/), and [Akshata](https://www.linkedin.com/in/akshata-pore-558242189/).
+
+### Thank you!
 
