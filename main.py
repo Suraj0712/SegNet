@@ -17,7 +17,7 @@ from models import ConvDeconvWithSkipConnection as cds
 from models import SegNet as s
 from models import SegNetWithSkipConnection as ss  
 
-data_path = "/home/sur/SemSeg/cityscape/"
+data_path = "/home/sur/SegNet/cityscape/"
 
 # Loading the dataset
 train = datasets.Cityscapes(data_path, split = 'train', mode = 'fine', target_type = 'semantic',transform=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()]),target_transform=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()]))
@@ -30,9 +30,9 @@ valset = torch.utils.data.DataLoader(val, batch_size=2, shuffle=True) #250 image
 
 # print(trainset.size())
 
-output_visualization =0
+output_visualization =1
 learing_rate = 0.001
-epoachs = 100
+epoachs = 1
 
 def main():
     # CHecking tha availability of the GPU and running
@@ -209,7 +209,7 @@ def test(net, device):
                     plt.figure(2)
                     plt.imshow(transforms.ToPILImage()(data[0][idx]))
                     plt.show()
-        accuracy = 1 - nonzerocount/(valset_size*256*512)
+        accuracy = 1 - wrongclassifiedpixelcount/(valset_size*256*512)
         print("Accuracy",accuracy)
 
 if __name__ == '__main__':
@@ -224,7 +224,7 @@ if __name__ == '__main__':
   net.load_state_dict(torch.load('/home/sur/SegNet/weights/wts_segnet.pth'))
 
 # Training the network  
-#   train(net,device)
+  train(net,device)
 # Testing the network
   test(net, device)
   sec_last = time.time()
